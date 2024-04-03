@@ -1,4 +1,4 @@
-namespace PandaNuGet.Tests;
+namespace EFCore.AuditBase.Tests;
 
 public class UnitTest1
 {
