@@ -4,25 +4,25 @@ namespace EFCore.AuditBase;
 
 public abstract class AuditEntityBase
 {
-   public DateTime CreatedAt { get; private init; } = DateTime.UtcNow;
-   public required long? CreatedByUserId { get; init; }
-   public DateTime? UpdatedAt { get; private set; }
-   public long? UpdatedByUserId { get; private set; }
-   public bool Deleted { get; private set; }
-   [ConcurrencyCheck] public int Version { get; private set; } = 1;
-   
-   public void MarkAsUpdated(long? userId)
-   {
-      this.UpdatedAt = DateTime.UtcNow;
-      this.UpdatedByUserId = userId;
-      this.Version++;
-   }
+    [Required] public DateTime CreatedAt { get; private init; } = DateTime.UtcNow;
+    public required long? CreatedByUserId { get; init; }
+    public DateTime? UpdatedAt { get; private set; }
+    public long? UpdatedByUserId { get; private set; }
+    [Required] public bool Deleted { get; private set; }
+    [Required, ConcurrencyCheck] public int Version { get; private set; } = 1;
 
-   public void MarkAsDeleted(long? userId)
-   {
-      this.Deleted = true;
-      this.UpdatedAt = DateTime.UtcNow;
-      this.UpdatedByUserId = userId;
-      this.Version++;
-   }
+    public void MarkAsUpdated(long? userId)
+    {
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedByUserId = userId;
+        Version++;
+    }
+
+    public void MarkAsDeleted(long? userId)
+    {
+        Deleted = true;
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedByUserId = userId;
+        Version++;
+    }
 }
