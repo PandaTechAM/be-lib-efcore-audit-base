@@ -72,13 +72,13 @@ public void UpdateProduct(Product product, long updatingUserId)
 {
     // Perform your update logic...
     
-    product.MarkAsUpdated(updatingUserId);
+    product.MarkAsUpdated(updatingUserId); //optional UpdatedAt DateTime parameter
     _dbContext.SaveChanges();
 }
 
 public void DeleteProduct(Product product, long deletingUserId)
 {
-    product.MarkAsDeleted(deletingUserId);
+    product.MarkAsDeleted(deletingUserId); //optional UpdatedAt DateTime parameter
     _dbContext.SaveChanges();
 }
 ```
