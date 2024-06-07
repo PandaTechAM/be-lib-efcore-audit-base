@@ -8,7 +8,7 @@
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <PackageId>Pandatech.EFCore.AuditBase</PackageId>
         <Title>Pandatech EFCore AuditBase</Title>
         <PackageTags>Pandatech, library, audit, optimistic lock, tracking, efcore, soft delete, versioning</PackageTags>
