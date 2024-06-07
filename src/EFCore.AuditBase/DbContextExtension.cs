@@ -16,13 +16,13 @@ public static class DbContextExtensions
     private static void ValidateAuditMethodUsage(DbContext context)
     {
         var entries = context.ChangeTracker.Entries<AuditEntityBase>()
-            .Where(e => e.State is EntityState.Modified or EntityState.Deleted);
+            .Where(e => e.State is EntityState.Modified);
 
         foreach (var entry in entries)
         {
             var entityName = entry.Entity.GetType().Name;
 
-            if (entry.State is not (EntityState.Modified or EntityState.Deleted))
+            if (entry.State is not EntityState.Modified)
             {
                 continue;
             }
@@ -32,15 +32,9 @@ public static class DbContextExtensions
 
             if (originalVersion == currentVersion)
             {
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        throw new InvalidOperationException(
-                            $"Entity '{entityName}' must be updated using MarkAsUpdated method. Missing or incorrect audit fields for update.");
-                    case EntityState.Deleted:
-                        throw new InvalidOperationException(
-                            $"Entity '{entityName}' must be deleted using MarkAsDeleted method. Missing or incorrect audit fields for deletion.");
-                }
+                throw new InvalidOperationException(
+                    $"Entity '{entityName}' must be updated using MarkAsUpdated method. Missing or incorrect audit fields for update.");
+
             }
         }
     }
