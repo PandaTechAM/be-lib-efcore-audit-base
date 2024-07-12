@@ -1,21 +1,9 @@
-- [1. Pandatech.EFCore.AuditBase](#1-pandatechefcoreauditbase)
-  - [1.1. Features](#11-features)
-  - [1.2. Getting Started](#12-getting-started)
-  - [1.3. Usage](#13-usage)
-    - [1.3.1. Entity Inheritance Example:](#131-entity-inheritance-example)
-    - [1.3.2. Using `MarkAsUpdated` and `MarkAsDeleted`:](#132-using-markasupdated-and-markasdeleted)
-    - [1.3.3. DbContext Configuration:](#133-dbcontext-configuration)
-    - [1.3.4. Ignoring Soft Delete Filter:](#134-ignoring-soft-delete-filter)
-  - [1.4. Handling Concurrency](#14-handling-concurrency)
-  - [1.5. Contributing](#15-contributing)
-  - [1.6. License](#16-license)
-
-# 1. Pandatech.EFCore.AuditBase
+# Pandatech.EFCore.AuditBase
 
 Pandatech.EFCore.AuditBase is a comprehensive auditing library for Entity Framework Core, designed to make entity
 tracking, deletion management, and concurrency control straightforward and efficient.
 
-## 1.1. Features
+## Features
 
 - **Automatic Auditing**: Automatically tracks creation and update times, along with the corresponding user IDs.
 - **Soft Delete Support**: Implements soft deletion logic, allowing entities to be marked as deleted without physical
@@ -28,7 +16,7 @@ tracking, deletion management, and concurrency control straightforward and effic
 - **Seamless Integration**: Designed to integrate smoothly with EF Core projects, enhancing data integrity and
   compliance.
 
-## 1.2. Getting Started
+## Getting Started
 
 To integrate Pandatech.EFCore.AuditBase into your project, install the NuGet package:
 
@@ -36,7 +24,7 @@ To integrate Pandatech.EFCore.AuditBase into your project, install the NuGet pac
 Install-Package Pandatech.EFCore.AuditBase
 ```
 
-## 1.3. Usage
+## Usage
 
 1. Inherit from `AuditEntityBase` in your entity classes to enable auditing.
 2. Use `MarkAsUpdated(userId)` and `MarkAsDeleted(userId)` methods to handle entity updates and deletions.
@@ -44,7 +32,7 @@ Install-Package Pandatech.EFCore.AuditBase
 4. Leverage `ModelBuilderExtensions.FilterOutDeletedMarkedObjects` to automatically exclude soft-deleted entities from
    EF Core queries.
 
-### 1.3.1. Entity Inheritance Example:
+### Entity Inheritance Example:
 
 Assuming you have a `Product` entity in your application, you would inherit from `AuditEntityBase` to include auditing
 properties:
@@ -63,7 +51,7 @@ public class Product : AuditEntityBase
 By inheriting from AuditEntityBase, Product automatically gains auditing properties
 like `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `Deleted` and `Version`.
 
-### 1.3.2. Using `MarkAsUpdated` and `MarkAsDeleted`:
+### Using `MarkAsUpdated` and `MarkAsDeleted`:
 
 When updating or deleting an entity, use the provided methods to ensure the audit properties are correctly updated:
 
@@ -83,7 +71,7 @@ public void DeleteProduct(Product product, long deletingUserId)
 }
 ```
 
-### 1.3.3. DbContext Configuration:
+### DbContext Configuration:
 
 In your `DbContext`, ensure you call `UseAuditPropertyValidation` to enforce the usage of audit methods and
 `FilterOutDeletedMarkedObjects` to apply the global filter for soft-deleted entities:
@@ -110,7 +98,18 @@ public class MyDbContext : DbContext
 }
 ```
 
-### 1.3.4. Ignoring Soft Delete Filter:
+### Using `ExecuteSoftDeleteAsync`:
+To perform a soft delete on multiple entities, use the `ExecuteSoftDeleteAsync` extension method.
+```csharp
+public async Task SoftDeleteProductsAsync(MyDbContext dbContext, long userId)
+{
+    var productsToSoftDelete = dbContext.Products.Where(p => p.Price > 100);
+
+    await productsToSoftDelete.ExecuteSoftDeleteAsync(userId);
+}
+```
+
+### Ignoring Soft Delete Filter:
 
 If you need to include soft-deleted entities in a specific query, use `IgnoreQueryFilters()`:
 
@@ -118,17 +117,17 @@ If you need to include soft-deleted entities in a specific query, use `IgnoreQue
 var allProductsIncludingDeleted = _dbContext.Products.IgnoreQueryFilters().ToList();
 ```
 
-## 1.4. Handling Concurrency
+## Handling Concurrency
 
 The `AuditEntityBase` includes a versioning mechanism to manage concurrent updates. In the event of a conflict, a
 concurrency exception will be thrown. This can be gracefully handled using try-catch blocks or integrated
 with `Pandatech.ResponseCrafter` for automated response management. This concurrency control is enabled by default and
 is not locking the row as it uses optimistic lock.
 
-## 1.5. Contributing
+## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to propose changes or report bugs.
 
-## 1.6. License
+## License
 
 Pandatech.EFCore.AuditBase is licensed under the MIT License.
