@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace EFCore.AuditBase;
 
@@ -18,4 +20,25 @@ public static class QueryableExtensions
             .SetProperty(y => y.UpdatedByUserId, userId)
             .SetProperty(y => y.Version, y => y.Version + 1), cancellationToken);
     }
+    
+    public static Task<int> ExecuteUpdateAndMarkUpdatedAsync<T>(
+       this IQueryable<T> query,
+       long? userId,
+       Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> setProperties,
+       DateTime? updatedAt = null,
+       CancellationToken cancellationToken = default)
+       where T : AuditEntityBase
+    {
+       updatedAt ??= DateTime.UtcNow;
+       
+       var combinedProperties = (Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>>)(x => 
+             setProperties.Compile().Invoke(x)
+                          .SetProperty(y => y.UpdatedAt, updatedAt)
+                          .SetProperty(y => y.UpdatedByUserId, userId)
+                          .SetProperty(y => y.Version, y => y.Version + 1)
+          );
+
+       return query.ExecuteUpdateAsync(combinedProperties, cancellationToken);
+    }
+    
 }
