@@ -48,7 +48,7 @@ public class Product : AuditEntityBase
 }
 ```
 
-By inheriting from AuditEntityBase, Product automatically gains auditing properties
+By inheriting from `AuditEntityBase`, Product automatically gains auditing properties
 like `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `Deleted` and `Version`.
 
 ### Using `MarkAsUpdated` and `MarkAsDeleted`:
@@ -98,8 +98,27 @@ public class MyDbContext : DbContext
 }
 ```
 
+### Using `ExecuteUpdateAndMarkUpdatedAsync`:
+
+This extension method allows developers to update multiple properties while still maintaining audit consistency by
+updating `UpdatedAt`, `UpdatedByUserId`, and `Version` behind the scenes.
+
+```csharp
+public async Task UpdateProductPricesAsync(MyDbContext dbContext, long userId)
+{
+    var expensiveProducts = dbContext.Products.Where(p => p.Price > 100);
+
+    await expensiveProducts.ExecuteUpdateAndMarkUpdatedAsync(
+        userId,
+        x => x.SetProperty(p => p.Price, p => p.Price * 0.9) // Apply 10% discount
+    );
+}
+```
+
 ### Using `ExecuteSoftDeleteAsync`:
+
 To perform a soft delete on multiple entities, use the `ExecuteSoftDeleteAsync` extension method.
+
 ```csharp
 public async Task SoftDeleteProductsAsync(MyDbContext dbContext, long userId)
 {
@@ -121,8 +140,11 @@ var allProductsIncludingDeleted = _dbContext.Products.IgnoreQueryFilters().ToLis
 
 The `AuditEntityBase` includes a versioning mechanism to manage concurrent updates. In the event of a conflict, a
 concurrency exception will be thrown. This can be gracefully handled using try-catch blocks or integrated
-with `Pandatech.ResponseCrafter` for automated response management. This concurrency control is enabled by default and
-is not locking the row as it uses optimistic lock.
+with `Pandatech.ResponseCrafter` for automated response management.
+
+However, `ExecuteUpdateAndMarkUpdatedAsync` and `ExecuteSoftDeleteAsync` **ignore optimistic locking**, meaning they
+will not throw a concurrency exception if the `Version` field changes during the operation. This is because these
+methods only increment the `Version` field by one, regardless of the current value.
 
 ## Contributing
 
