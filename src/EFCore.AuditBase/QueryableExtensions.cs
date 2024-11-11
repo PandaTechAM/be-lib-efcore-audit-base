@@ -41,4 +41,14 @@ public static class QueryableExtensions
        return query.ExecuteUpdateAsync(combinedProperties, cancellationToken);
     }
     
+    public static void MarkAsDeleted<T>(this IEnumerable<T> entities, long? userId, DateTime? updatedAt = null)
+        where T : AuditEntityBase
+    {
+        updatedAt ??= DateTime.UtcNow;
+        foreach (var entity in entities)
+        {
+            entity.MarkAsDeleted(userId,updatedAt);
+        }
+    }
+    
 }
