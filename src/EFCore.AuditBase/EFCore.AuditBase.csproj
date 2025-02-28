@@ -8,13 +8,13 @@
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>3.0.1</Version>
+        <Version>3.0.2</Version>
         <PackageId>Pandatech.EFCore.AuditBase</PackageId>
         <Title>Pandatech EFCore AuditBase</Title>
         <PackageTags>Pandatech, library, audit, optimistic lock, tracking, efcore, soft delete, versioning</PackageTags>
         <Description>Pandatech.EFCore.AuditBase provides a robust auditing solution for EF Core applications, ensuring traceability and integrity of entity modifications. It seamlessly integrates auditing capabilities into your EF Core entities, enforcing best practices for entity state changes, deletion handling, and versioning to support concurrency control. Ideal for applications requiring a reliable audit trail and compliance with data handling standards.</Description>
         <RepositoryUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</RepositoryUrl>
-        <PackageReleaseNotes>Nuget updates</PackageReleaseNotes>
+        <PackageReleaseNotes>New method added for syncing audit base entities</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
