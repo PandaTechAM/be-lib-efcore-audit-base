@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EFCore.AuditBase;
 
@@ -14,6 +15,9 @@ public abstract class AuditEntityBase
    [ConcurrencyCheck]
    public int Version { get; private set; } = 1;
 
+   [NotMapped]
+   internal bool IgnoreInterceptor { get; set; }
+
    public void MarkAsUpdated(long? userId, DateTime? updatedAt = null)
    {
       UpdatedAt = updatedAt ?? DateTime.UtcNow;
@@ -28,8 +32,10 @@ public abstract class AuditEntityBase
       UpdatedByUserId = userId;
       Version++;
    }
+
    public void SyncAuditBase(AuditEntityBase source)
    {
+      IgnoreInterceptor = true;
       UpdatedAt = source.UpdatedAt;
       UpdatedByUserId = source.UpdatedByUserId;
       Deleted = source.Deleted;
