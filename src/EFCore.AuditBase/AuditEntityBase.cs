@@ -16,7 +16,7 @@ public abstract class AuditEntityBase
    public int Version { get; private set; } = 1;
 
    [NotMapped]
-   internal bool IgnoreInterceptor { get; set; }
+   internal bool IgnoreInterceptor;
 
    public void MarkAsUpdated(long? userId, DateTime? updatedAt = null)
    {
