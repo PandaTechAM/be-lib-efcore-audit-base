@@ -32,7 +32,16 @@ internal class AuditPropertyValidationInterceptor : SaveChangesInterceptor
    {
       var entries = context.ChangeTracker
                            .Entries<AuditEntityBase>()
-                           .Where(e => e.State == EntityState.Modified);
+                           .Where(e => e.State == EntityState.Modified)
+                           .ToList();
+
+      var ignoreInterceptor =
+         entries.Any(x => x.CurrentValues[nameof(AuditEntityBase.IgnoreInterceptor)] as bool? ?? false);
+
+      if (ignoreInterceptor)
+      {
+         return;
+      }
 
       foreach (var entry in entries)
       {
