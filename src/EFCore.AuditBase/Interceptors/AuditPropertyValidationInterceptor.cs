@@ -35,8 +35,7 @@ internal class AuditPropertyValidationInterceptor : SaveChangesInterceptor
                            .Where(e => e.State == EntityState.Modified)
                            .ToList();
 
-      var ignoreInterceptor = entries.Any(x => x.Property<bool>(nameof(AuditEntityBase.IgnoreInterceptor)).CurrentValue);
-
+      var ignoreInterceptor = entries.Any(x => x.Entity.IgnoreInterceptor);
 
       if (ignoreInterceptor)
       {
