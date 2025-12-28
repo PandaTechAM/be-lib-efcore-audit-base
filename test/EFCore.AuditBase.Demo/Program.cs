@@ -43,7 +43,7 @@ app.MapGet("/products",
          CreatedAt = product.CreatedAt,
          CreatedByUserId = product.CreatedByUserId,
          Name = product.Name,
-         Price = product.Price,
+         Price = product.Price
       };
       product2.SyncAuditBase(product);
 

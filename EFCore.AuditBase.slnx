@@ -1,0 +1,16 @@
+<Solution>
+    <Folder Name="/Solution Items/">
+        <File Path=".editorconfig"/>
+        <File Path=".github/workflows/main.yml"/>
+        <File Path=".gitignore"/>
+        <File Path="global.json"/>
+        <File Path="Readme.md"/>
+    </Folder>
+    <Folder Name="/src/">
+        <Project Path="src/EFCore.AuditBase/EFCore.AuditBase.csproj"/>
+    </Folder>
+    <Folder Name="/test/">
+        <Project Path="test/EFCore.AuditBase.Demo/EFCore.AuditBase.Demo.csproj"/>
+        <Project Path="test/EFCore.AuditBase.Tests/EFCore.AuditBase.Tests.csproj"/>
+    </Folder>
+</Solution>
