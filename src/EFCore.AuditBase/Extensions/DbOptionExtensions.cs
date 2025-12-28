@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EFCore.AuditBase.Interceptors;
+﻿using EFCore.AuditBase.Interceptors;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.AuditBase.Extensions;
 

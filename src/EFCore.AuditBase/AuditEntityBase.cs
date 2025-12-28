@@ -5,6 +5,9 @@ namespace EFCore.AuditBase;
 
 public abstract class AuditEntityBase
 {
+   [NotMapped]
+   internal bool IgnoreInterceptor;
+
    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
    public required long? CreatedByUserId { get; init; }
@@ -14,9 +17,6 @@ public abstract class AuditEntityBase
 
    [ConcurrencyCheck]
    public int Version { get; private set; } = 1;
-
-   [NotMapped]
-   internal bool IgnoreInterceptor;
 
    public void MarkAsUpdated(long? userId, DateTime? updatedAt = null)
    {

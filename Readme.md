@@ -28,13 +28,16 @@ Install-Package Pandatech.EFCore.AuditBase
 
 1. Inherit from `AuditEntityBase` in your entity classes to enable auditing.
 2. Use `MarkAsUpdated(userId)` and `MarkAsDeleted(userId)` methods to handle entity updates and deletions.
-3. Apply `OptionsBuilderExtensions.UseAuditBaseValidatorInterceptor` during the DbContext registration in your DI configuration.
+3. Apply `OptionsBuilderExtensions.UseAuditBaseValidatorInterceptor` during the DbContext registration in your DI
+   configuration.
 4. Leverage `ModelBuilderExtensions.FilterOutDeletedMarkedObjects` to automatically exclude soft-deleted entities from
    EF Core queries.
 
 ### Registering DbContext with `UseAuditBaseValidatorInterceptor`:
 
-When configuring your `DbContext`, ensure you call `UseAuditBaseValidatorInterceptor` during the service registration phase:
+When configuring your `DbContext`, ensure you call `UseAuditBaseValidatorInterceptor` during the service registration
+phase:
+
 ```csharp
 var connectionString = configuration.GetConnectionString("Postgres");
 
@@ -84,7 +87,8 @@ public void DeleteProduct(Product product, long deletingUserId)
 
 ### DbContext Configuration:
 
-In your `DbContext`, you can use the `FilterOutDeletedMarkedObjects` method to apply a global query filter for soft-deleted entities:
+In your `DbContext`, you can use the `FilterOutDeletedMarkedObjects` method to apply a global query filter for
+soft-deleted entities:
 
 ```csharp
 using Microsoft.EntityFrameworkCore;
