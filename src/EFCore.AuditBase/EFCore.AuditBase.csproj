@@ -8,13 +8,13 @@
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>4.0.0</Version>
+        <Version>4.0.1</Version>
         <PackageId>Pandatech.EFCore.AuditBase</PackageId>
         <Title>Pandatech EFCore AuditBase</Title>
         <PackageTags>Pandatech, library, audit, optimistic lock, tracking, efcore, soft delete, versioning</PackageTags>
         <Description>Pandatech.EFCore.AuditBase provides a robust auditing solution for EF Core applications, ensuring traceability and integrity of entity modifications. It seamlessly integrates auditing capabilities into your EF Core entities, enforcing best practices for entity state changes, deletion handling, and versioning to support concurrency control. Ideal for applications requiring a reliable audit trail and compliance with data handling standards.</Description>
         <RepositoryUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</RepositoryUrl>
-        <PackageReleaseNotes>Dotnet 10 update</PackageReleaseNotes>
+        <PackageReleaseNotes>nuget updates</PackageReleaseNotes>
 
         <!-- Never run analyzers as part of compilation (local, CI, dotnet build/test/publish) -->
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -32,10 +32,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-        <PackageReference Include="Pandatech.Analyzers" Version="1.6.0"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.17.0.131074">
+        <PackageReference Include="Pandatech.Analyzers" Version="2.1.0" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.18.0.131500">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
