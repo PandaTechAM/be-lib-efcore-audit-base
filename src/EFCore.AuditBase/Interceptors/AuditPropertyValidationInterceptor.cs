@@ -3,15 +3,13 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace EFCore.AuditBase.Interceptors;
 
-internal class AuditPropertyValidationInterceptor : SaveChangesInterceptor
+internal sealed class AuditPropertyValidationInterceptor : SaveChangesInterceptor
 {
    public override InterceptionResult<int> SavingChanges(DbContextEventData eventData,
       InterceptionResult<int> result)
    {
       if (eventData.Context is not null)
-      {
          ValidateAuditMethodUsage(eventData.Context);
-      }
 
       return base.SavingChanges(eventData, result);
    }
@@ -21,9 +19,7 @@ internal class AuditPropertyValidationInterceptor : SaveChangesInterceptor
       CancellationToken cancellationToken = default)
    {
       if (eventData.Context is not null)
-      {
          ValidateAuditMethodUsage(eventData.Context);
-      }
 
       return base.SavingChangesAsync(eventData, result, cancellationToken);
    }
@@ -36,34 +32,21 @@ internal class AuditPropertyValidationInterceptor : SaveChangesInterceptor
                            .ToList();
 
       if (entries.Count is 0)
-      {
          return;
-      }
 
-      var ignoreInterceptor = entries.Any(x => x.Entity.IgnoreInterceptor);
-
-      if (ignoreInterceptor)
-      {
+      if (entries.Any(x => x.Entity.IgnoreInterceptor))
          return;
-      }
 
       foreach (var entry in entries)
       {
-         var entityName = entry.Entity.GetType()
-                               .Name;
-
-         if (entry.State is not EntityState.Modified)
-         {
-            continue;
-         }
-
          var originalVersion = entry.OriginalValues[nameof(AuditEntityBase.Version)] as int?;
          var currentVersion = entry.CurrentValues[nameof(AuditEntityBase.Version)] as int?;
 
          if (originalVersion == currentVersion)
          {
             throw new InvalidOperationException(
-               $"Entity '{entityName}' must be updated using MarkAsUpdated method. Missing or incorrect audit fields for update.");
+               $"Entity '{entry.Entity.GetType().Name}' was modified without calling MarkAsUpdated or MarkAsDeleted. " +
+               "All modifications to audited entities must go through the provided audit methods.");
          }
       }
    }
