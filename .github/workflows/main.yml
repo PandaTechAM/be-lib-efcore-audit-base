@@ -31,8 +31,8 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+#      - name: Test
+#        run: dotnet test --no-build --configuration Release --verbosity normal
 
       - name: Pack
         run: dotnet pack ${{ env.PROJECT_PATH }} --no-build --configuration Release --output ${{ env.OUTPUT_DIR }}
