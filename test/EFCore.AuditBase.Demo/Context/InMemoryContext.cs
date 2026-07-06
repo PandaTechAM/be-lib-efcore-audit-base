@@ -2,5 +2,5 @@
 
 public class InMemoryContext(DbContextOptions<InMemoryContext> options) : DbContext(options)
 {
-   public DbSet<Product> Products => Set<Product>();
+    public DbSet<Product> Products => Set<Product>();
 }

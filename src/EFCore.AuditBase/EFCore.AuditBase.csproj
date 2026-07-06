@@ -1,69 +1,69 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
 
-        <IsPackable>true</IsPackable>
+    <IsPackable>true</IsPackable>
 
-        <PackageId>Pandatech.EFCore.AuditBase</PackageId>
-        <Authors>Pandatech</Authors>
-        <Description>Auditing base for EF Core entities: automatic CreatedAt/UpdatedAt/UserId tracking, soft delete, optimistic concurrency via versioning, bulk update/delete helpers, and a SaveChanges interceptor that enforces correct audit method usage.</Description>
-        <PackageTags>efcore;audit;soft-delete;optimistic-concurrency;versioning;entity-framework;tracking</PackageTags>
+    <PackageId>Pandatech.EFCore.AuditBase</PackageId>
+    <Authors>Pandatech</Authors>
+    <Description>Auditing base for EF Core entities: automatic CreatedAt/UpdatedAt/UserId tracking, soft delete, optimistic concurrency via versioning, bulk update/delete helpers, and a SaveChanges interceptor that enforces correct audit method usage.</Description>
+    <PackageTags>efcore;audit;soft-delete;optimistic-concurrency;versioning;entity-framework;tracking</PackageTags>
 
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</PackageProjectUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/PandaTechAM/be-lib-efcore-audit-base</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
-        <PackageIcon>pandatech.png</PackageIcon>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>pandatech.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
-        <Version>5.0.0</Version>
-        <PackageReleaseNotes>Multi-target net9.0/net10.0, removed Npgsql dependency, framework-pinned EF Core references</PackageReleaseNotes>
+    <Version>5.0.1</Version>
+    <PackageReleaseNotes>Tooling modernization: xUnit v3 test migration, dependency updates, XML docs, standardized editorconfig/gitignore/global.json.</PackageReleaseNotes>
 
-        <!-- Build quality -->
-        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Build quality -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <!-- Source/symbols -->
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- Source/symbols -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
 
-        <!-- Analyzer behavior -->
-        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
-    </PropertyGroup>
+    <!-- Analyzer behavior -->
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <None Include="..\..\pandatech.png" Pack="true" PackagePath="\"/>
-        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\pandatech.png" Pack="true" PackagePath="\"/>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
-    <!-- EF Core - framework-specific versions -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0"/>
-    </ItemGroup>
+  <!-- EF Core - framework-specific versions -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0"/>
+  </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0"/>
-    </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0"/>
+  </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0"/>
-    </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0"/>
+  </ItemGroup>
 
-    <!-- Analyzers -->
-    <ItemGroup>
-        <PackageReference Include="Pandatech.Analyzers" Version="[2.1.0]" PrivateAssets="all"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="[10.18.0.131500]">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+  <!-- Analyzers -->
+  <ItemGroup>
+    <PackageReference Include="Pandatech.Analyzers" Version="[2.1.0]" PrivateAssets="all"/>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="[10.28.0.143324]">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
